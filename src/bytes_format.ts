@@ -1,6 +1,5 @@
-import {
-  type byte,
-} from "https://raw.githubusercontent.com/i-xi-dev/byte.es/1.0.0/src/byte.ts"; //TODO import_mapにうつす（今はdeno docで読めない）
+import { type byte } from "https://raw.githubusercontent.com/i-xi-dev/byte.es/1.0.0/src/byte.ts"; //TODO import_mapにうつす（今はdeno docで読めない）
+import { Integer } from "https://raw.githubusercontent.com/i-xi-dev/int.es/1.0.0/mod.ts"; //TODO import_mapにうつす（今はdeno docで読めない）
 
 import * as x from "./x.ts";
 
@@ -170,7 +169,7 @@ function _resolveFormatOptions(
     : 16;
 
   if (
-    x._isPositiveInteger(options.paddedLength) ||
+    Integer.isPositiveInteger(options.paddedLength) ||
     (options.paddedLength === undefined)
   ) {
     // ok
