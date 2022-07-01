@@ -1,7 +1,6 @@
-import { type byte } from "https://raw.githubusercontent.com/i-xi-dev/byte.es/1.0.0/src/byte.ts"; //TODO import_mapにうつす（今はdeno docで読めない）
+import { type byte } from "https://raw.githubusercontent.com/i-xi-dev/byte.es/1.0.0/mod.ts"; //TODO import_mapにうつす（今はdeno docで読めない）
 import { Integer } from "https://raw.githubusercontent.com/i-xi-dev/int.es/1.0.0/mod.ts"; //TODO import_mapにうつす（今はdeno docで読めない）
-
-import * as x from "./x.ts";
+import { StringUtils } from "https://raw.githubusercontent.com/i-xi-dev/str.es/1.0.0/mod.ts"; //TODO import_mapにうつす（今はdeno docで読めない）
 
 /**
  * 対応する基数
@@ -265,7 +264,7 @@ function _parse(
   } else {
     const elementLength = options.paddedLength + options.prefix.length +
       options.suffix.length;
-    byteStringArray = [...x._segmentString(toParse, elementLength)];
+    byteStringArray = [...StringUtils.segment(toParse, elementLength)];
   }
 
   return Uint8Array.from(byteStringArray, (byteString) => {
