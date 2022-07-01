@@ -1,6 +1,6 @@
-import { type byte } from "https://raw.githubusercontent.com/i-xi-dev/byte.es/1.0.0/mod.ts"; //TODO import_mapにうつす（今はdeno docで読めない）
-import { Integer } from "https://raw.githubusercontent.com/i-xi-dev/int.es/1.0.0/mod.ts"; //TODO import_mapにうつす（今はdeno docで読めない）
-import { StringUtils } from "https://raw.githubusercontent.com/i-xi-dev/str.es/1.0.0/mod.ts"; //TODO import_mapにうつす（今はdeno docで読めない）
+import { type byte } from "i-xi-dev/byte";
+import { Integer } from "i-xi-dev/int";
+import { StringUtils } from "i-xi-dev/str";
 
 /**
  * 対応する基数
