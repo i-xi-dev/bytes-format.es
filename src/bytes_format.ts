@@ -1,6 +1,4 @@
-import { type byte } from "i-xi-dev/byte";
-import { Integer } from "i-xi-dev/int";
-import { StringUtils } from "i-xi-dev/str";
+import { type byte, Integer, StringUtils } from "./deps.ts";
 
 /**
  * 対応する基数

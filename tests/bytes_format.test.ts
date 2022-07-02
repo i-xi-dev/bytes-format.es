@@ -1,5 +1,5 @@
 import { assertStrictEquals, assertThrows } from "std/testing/asserts";
-import { BytesFormat } from "../src/bytes_format.ts";
+import { BytesFormat } from "../mod.ts";
 
 Deno.test("BytesFormat.format(Uint8Array)", () => {
   assertStrictEquals(BytesFormat.format(Uint8Array.of()), "");
