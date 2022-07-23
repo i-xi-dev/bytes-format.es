@@ -1,7 +1,9 @@
-import { type byte, Integer, StringUtils } from "./deps.ts";
+import { Integer, StringUtils, type uint8 } from "./deps.ts";
 
 /**
  * 対応する基数
+ *
+ * @internal
  */
 const _FORMAT_RADIXES = [2, 8, 10, 16] as const;
 
@@ -93,6 +95,9 @@ Object.freeze(BytesFormat);
 
 export { BytesFormat };
 
+/**
+ * @internal
+ */
 function _isFormatRadix(value: unknown): value is BytesFormat.Radix {
   if (typeof value === "number") {
     return (_FORMAT_RADIXES as ReadonlyArray<number>).includes(value);
@@ -102,6 +107,8 @@ function _isFormatRadix(value: unknown): value is BytesFormat.Radix {
 
 /**
  * `BytesFormat.Options`の各項目を省略不可にしたオプション
+ *
+ * @internal
  */
 type _ResolvedFormatOptions = {
   /** 基数 */
@@ -126,7 +133,8 @@ type _ResolvedFormatOptions = {
 /**
  * フォーマット基数に応じた前方ゼロ埋め結果の最小文字列長を返却
  *
- * @param radix フォーマット基数
+ * @internal
+ * @param radix - フォーマット基数
  * @returns フォーマット結果の前方ゼロ埋め結果の最小文字列長
  */
 function _minPaddedLengthOf(radix: BytesFormat.Radix): number /* int */ {
@@ -147,7 +155,8 @@ function _minPaddedLengthOf(radix: BytesFormat.Radix): number /* int */ {
 /**
  * オプションの省略項目にデフォルト値をセットした`_ResolvedFormatOptions`を返却
  *
- * @param options 省略項目があるかもしれないオプション
+ * @internal
+ * @param options - 省略項目があるかもしれないオプション
  * @returns 省略項目なしオプション
  * @throws {TypeError} The `options.radix` is not 2, 8, 10, or 16.
  * @throws {TypeError} The `options.paddedLength` is not positive integer.
@@ -223,7 +232,8 @@ function _resolveFormatOptions(
 /**
  * オプションどおりにフォーマットした1バイトを表す文字列にマッチする正規表現を生成
  *
- * @param resolvedOptions オプション
+ * @internal
+ * @param resolvedOptions - オプション
  * @returns オプションから生成した正規表現
  */
 function _createByteRegex(resolvedOptions: _ResolvedFormatOptions): RegExp {
@@ -273,7 +283,8 @@ function _parse(
 /**
  * 1バイトを表す文字列を8-bit符号なし整数にパースし返却
  *
- * @param formatted 文字列
+ * @internal
+ * @param formatted - 文字列
  * @returns 8-bit符号なし整数
  * @throws {TypeError} The `formatted` does not match the specified format.
  */
@@ -281,7 +292,7 @@ function _parseByte(
   formatted: string,
   options: _ResolvedFormatOptions,
   byteRegex: RegExp,
-): byte {
+): uint8 {
   let work = formatted;
 
   if (options.prefix.length > 0) {
@@ -306,7 +317,7 @@ function _parseByte(
 
   const integer = Number.parseInt(work, options.radix);
   // if (isUint8(integer)) {
-  return integer as byte; // regex.testがtrueならuint8のはず
+  return integer as uint8; // regex.testがtrueならuint8のはず
   // }
   // else
 }
@@ -316,7 +327,7 @@ function _format(
   options: _ResolvedFormatOptions,
 ): string {
   const byteStringArray = [...bytes].map((byte) => {
-    return _formatByte(byte as byte, options);
+    return _formatByte(byte as uint8, options);
   });
   return byteStringArray.join(options.separator);
 }
@@ -324,11 +335,12 @@ function _format(
 /**
  * 8-bit符号なし整数を文字列にフォーマットし返却
  *
- * @param byte 8-bit符号なし整数
- * @param options オプション
+ * @internal
+ * @param byte - 8-bit符号なし整数
+ * @param options - オプション
  * @returns 文字列
  */
-function _formatByte(byte: byte, options: _ResolvedFormatOptions): string {
+function _formatByte(byte: uint8, options: _ResolvedFormatOptions): string {
   let str = byte.toString(options.radix);
   if (options.lowerCase !== true) {
     str = str.toUpperCase();
