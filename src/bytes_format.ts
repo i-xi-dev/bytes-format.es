@@ -64,9 +64,9 @@ namespace BytesFormat {
   };
 
   /**
-   * @param formattedBytes
+   * @param formattedBytes - The formatted string represents a byte sequence.
    * @param options
-   * @returns
+   * @returns The byte sequence represented by `formattedBytes`.
    * @throws {TypeError} The `formattedBytes` contains the character sequence that does not match the specified format.
    */
   export function parse(
@@ -78,6 +78,11 @@ namespace BytesFormat {
     return _parse(formattedBytes, resolvedOptions, byteRegex);
   }
 
+  /**
+   * @param bytes - The byte sequence.
+   * @param options 
+   * @returns The formatted string represents a byte sequence.
+   */
   export function format(
     bytes: Uint8Array,
     options?: BytesFormat.Options,
