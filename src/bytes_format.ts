@@ -1,5 +1,4 @@
-import { Integer, type uint8 } from "i-xi-dev/int.es";
-import { StringUtils } from "i-xi-dev/str.es";
+import { Integer, StringUtils, type uint8 } from "../deps.ts";
 
 /**
  * 対応する基数
