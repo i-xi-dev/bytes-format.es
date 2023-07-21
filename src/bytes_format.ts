@@ -79,7 +79,7 @@ namespace BytesFormat {
 
   /**
    * @param bytes - The byte sequence.
-   * @param options 
+   * @param options
    * @returns The formatted string represents a byte sequence.
    */
   export function format(
