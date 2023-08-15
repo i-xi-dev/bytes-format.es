@@ -1,4 +1,4 @@
-import { Integer, StringUtils, type uint8 } from "../deps.ts";
+import { Integer, StringUtils, Uint8 } from "../deps.ts";
 
 /**
  * 対応する基数
@@ -297,7 +297,7 @@ function _parseByte(
   formatted: string,
   options: _ResolvedFormatOptions,
   byteRegex: RegExp,
-): uint8 {
+): Uint8 {
   let work = formatted;
 
   if (options.prefix.length > 0) {
@@ -322,7 +322,7 @@ function _parseByte(
 
   const integer = Number.parseInt(work, options.radix);
   // if (isUint8(integer)) {
-  return integer as uint8; // regex.testがtrueならuint8のはず
+  return integer as Uint8; // regex.testがtrueならuint8のはず
   // }
   // else
 }
@@ -332,7 +332,7 @@ function _format(
   options: _ResolvedFormatOptions,
 ): string {
   const byteStringArray = [...bytes].map((byte) => {
-    return _formatByte(byte as uint8, options);
+    return _formatByte(byte as Uint8, options);
   });
   return byteStringArray.join(options.separator);
 }
@@ -345,7 +345,7 @@ function _format(
  * @param options - オプション
  * @returns 文字列
  */
-function _formatByte(byte: uint8, options: _ResolvedFormatOptions): string {
+function _formatByte(byte: Uint8, options: _ResolvedFormatOptions): string {
   let str = byte.toString(options.radix);
   if (options.lowerCase !== true) {
     str = str.toUpperCase();
