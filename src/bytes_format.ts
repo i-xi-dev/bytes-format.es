@@ -35,7 +35,7 @@ namespace BytesFormat {
      * | `8` | `3` |
      * | `2` | `8` |
      */
-    paddedLength?: number /* int */;
+    paddedLength?: number /* Integer */;
 
     /**
      * Whether the formatted string is lowercase or not.
@@ -120,7 +120,7 @@ type _ResolvedFormatOptions = {
   radix: BytesFormat.Radix;
 
   /** 前方埋め結果の文字列長 */
-  paddedLength: number /* int */;
+  paddedLength: Integer;
 
   /** 16進数のa-fを小文字にするか否か */
   lowerCase: boolean;
@@ -142,7 +142,7 @@ type _ResolvedFormatOptions = {
  * @param radix - フォーマット基数
  * @returns フォーマット結果の前方ゼロ埋め結果の最小文字列長
  */
-function _minPaddedLengthOf(radix: BytesFormat.Radix): number /* int */ {
+function _minPaddedLengthOf(radix: BytesFormat.Radix): Integer {
   switch (radix) {
     case 2:
       return 8;
@@ -187,11 +187,10 @@ function _resolveFormatOptions(
   } else {
     throw new TypeError("paddedLength");
   }
-  const minPaddedLength: number /* int */ = _minPaddedLengthOf(radix);
-  const paddedLength: number /* int */ =
-    Number.isSafeInteger(options.paddedLength)
-      ? options.paddedLength as number /* int */
-      : minPaddedLength;
+  const minPaddedLength = _minPaddedLengthOf(radix);
+  const paddedLength = Number.isSafeInteger(options.paddedLength)
+    ? options.paddedLength as Integer
+    : minPaddedLength;
   if (paddedLength < minPaddedLength) {
     throw new RangeError("paddedLength");
   }
