@@ -105,14 +105,32 @@ Deno.test("BytesFormat.format(Uint8Array, {paddedLength:4})", () => {
     }),
     "00FF00FE00FD00FC0000000100020003",
   );
+  assertStrictEquals(
+    BytesFormat.format(Uint8Array.of(255, 254, 253, 252, 0, 1, 2, 3), {
+      paddedLength: 3,
+    }),
+    "0FF0FE0FD0FC000001002003",
+  );
+  assertStrictEquals(
+    BytesFormat.format(Uint8Array.of(255, 254, 253, 252, 0, 1, 2, 3), {
+      paddedLength: 2,
+    }),
+    "FFFEFDFC00010203",
+  );
+  assertStrictEquals(
+    BytesFormat.format(Uint8Array.of(255, 254, 253, 252, 0, 1, 2, 3), {
+      paddedLength: 1,
+    }),
+    "FFFEFDFC00010203",
+  );
 
   assertThrows(
     () => {
       BytesFormat.format(Uint8Array.of(255, 254, 253, 252, 0, 1, 2, 3), {
-        paddedLength: 1,
+        paddedLength: 0,
       });
     },
-    RangeError,
+    TypeError,
     "paddedLength",
   );
 

@@ -1,4 +1,4 @@
-import { Integer, StringUtils, Uint8 } from "../deps.ts";
+import { PositiveInteger, StringUtils, Uint8 } from "../deps.ts";
 
 /**
  * 対応する基数
@@ -120,7 +120,7 @@ type _ResolvedFormatOptions = {
   radix: BytesFormat.Radix;
 
   /** 前方埋め結果の文字列長 */
-  paddedLength: Integer;
+  paddedLength: PositiveInteger;
 
   /** 16進数のa-fを小文字にするか否か */
   lowerCase: boolean;
@@ -142,7 +142,7 @@ type _ResolvedFormatOptions = {
  * @param radix - フォーマット基数
  * @returns フォーマット結果の前方ゼロ埋め結果の最小文字列長
  */
-function _minPaddedLengthOf(radix: BytesFormat.Radix): Integer {
+function _minPaddedLengthOf(radix: BytesFormat.Radix): PositiveInteger {
   switch (radix) {
     case 2:
       return 8;
@@ -180,7 +180,7 @@ function _resolveFormatOptions(
     : 16;
 
   if (
-    Integer.isPositiveInteger(options.paddedLength) ||
+    PositiveInteger.isPositiveInteger(options.paddedLength) ||
     (options.paddedLength === undefined)
   ) {
     // ok
@@ -188,12 +188,13 @@ function _resolveFormatOptions(
     throw new TypeError("paddedLength");
   }
   const minPaddedLength = _minPaddedLengthOf(radix);
-  const paddedLength = Number.isSafeInteger(options.paddedLength)
-    ? options.paddedLength as Integer
-    : minPaddedLength;
-  if (paddedLength < minPaddedLength) {
-    throw new RangeError("paddedLength");
-  }
+  const paddedLength = PositiveInteger.clamp(
+    options.paddedLength,
+    {
+      fallback: minPaddedLength,
+      lowerLimit: minPaddedLength,
+    },
+  );
 
   let lowerCase: boolean;
   if (typeof options.lowerCase === "boolean") {
