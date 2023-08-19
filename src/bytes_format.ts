@@ -188,7 +188,7 @@ function _resolveFormatOptions(
     throw new TypeError("paddedLength");
   }
   const minPaddedLength = _minPaddedLengthOf(radix);
-  const paddedLength = PositiveInteger.clamp(
+  const paddedLength = PositiveInteger.from(
     options.paddedLength,
     {
       fallback: minPaddedLength,
