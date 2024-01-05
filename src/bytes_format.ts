@@ -1,4 +1,4 @@
-import { SafeInteger, StringUtils, Uint8 } from "../deps.ts";
+import { SafeInteger, StringEx, Uint8 } from "../deps.ts";
 
 /**
  * 対応する基数
@@ -7,7 +7,7 @@ import { SafeInteger, StringUtils, Uint8 } from "../deps.ts";
  */
 const _FORMAT_RADIXES = [2, 8, 10, 16] as const;
 
-namespace BytesFormat {
+export namespace BytesFormat {
   /**
    * 2, 8, 10, or 16.
    */
@@ -96,10 +96,6 @@ namespace BytesFormat {
 //   format(bytes: Uint8Array): string;
 // }
 
-Object.freeze(BytesFormat);
-
-export { BytesFormat };
-
 /**
  * @internal
  */
@@ -180,7 +176,7 @@ function _resolveFormatOptions(
     : 16;
 
   if (
-    SafeInteger.isPositive(options.paddedLength) ||
+    SafeInteger.isPositiveSafeInteger(options.paddedLength) ||
     (options.paddedLength === undefined)
   ) {
     // ok
@@ -192,7 +188,7 @@ function _resolveFormatOptions(
     options.paddedLength,
     {
       fallback: minPaddedLength,
-      lowerLimit: minPaddedLength,
+      clampRange: [minPaddedLength, Number.MAX_SAFE_INTEGER],
     },
   );
 
@@ -277,7 +273,7 @@ function _parse(
   } else {
     const elementLength = options.paddedLength + options.prefix.length +
       options.suffix.length;
-    byteStringArray = [...StringUtils.segment(toParse, elementLength)];
+    byteStringArray = [...StringEx.segment(toParse, elementLength)];
   }
 
   return Uint8Array.from(byteStringArray, (byteString) => {
@@ -285,6 +281,7 @@ function _parse(
   });
 }
 
+//TODO number-formatとして外に出す
 /**
  * 1バイトを表す文字列を8-bit符号なし整数にパースし返却
  *
@@ -337,6 +334,7 @@ function _format(
   return byteStringArray.join(options.separator);
 }
 
+//TODO number-formatとして外に出す
 /**
  * 8-bit符号なし整数を文字列にフォーマットし返却
  *
