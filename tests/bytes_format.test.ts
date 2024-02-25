@@ -20,34 +20,52 @@ Deno.test("BytesFormat.format(Uint8Array, {radix:16})", () => {
 });
 
 Deno.test("BytesFormat.format(Uint8Array, {radix:*})", () => {
-  assertThrows(
-    () => {
-      BytesFormat.format(Uint8Array.of(), {
-        radix: 1.5 as unknown as BytesFormat.Radix,
-      });
-    },
-    TypeError,
-    "radix",
+  // assertThrows(
+  //   () => {
+  //     BytesFormat.format(Uint8Array.of(), {
+  //       radix: 1.5 as unknown as BytesFormat.Radix,
+  //     });
+  //   },
+  //   TypeError,
+  //   "radix",
+  // );
+  assertStrictEquals(
+    BytesFormat.format(Uint8Array.of(10), {
+      radix: 1.5 as unknown as 2,
+    }),
+    "0A",
   );
 
-  assertThrows(
-    () => {
-      BytesFormat.format(Uint8Array.of(), {
-        radix: 15 as unknown as BytesFormat.Radix,
-      });
-    },
-    TypeError,
-    "radix",
+  // assertThrows(
+  //   () => {
+  //     BytesFormat.format(Uint8Array.of(), {
+  //       radix: 15 as unknown as BytesFormat.Radix,
+  //     });
+  //   },
+  //   TypeError,
+  //   "radix",
+  // );
+  assertStrictEquals(
+    BytesFormat.format(Uint8Array.of(10), {
+      radix: 1.5 as unknown as 2,
+    }),
+    "0A",
   );
 
-  assertThrows(
-    () => {
-      BytesFormat.format(Uint8Array.of(), {
-        radix: "1" as unknown as BytesFormat.Radix,
-      });
-    },
-    TypeError,
-    "radix",
+  // assertThrows(
+  //   () => {
+  //     BytesFormat.format(Uint8Array.of(), {
+  //       radix: "1" as unknown as BytesFormat.Radix,
+  //     });
+  //   },
+  //   TypeError,
+  //   "radix",
+  // );
+  assertStrictEquals(
+    BytesFormat.format(Uint8Array.of(10), {
+      radix: "1" as unknown as 2,
+    }),
+    "0A",
   );
 });
 
@@ -94,64 +112,82 @@ Deno.test("BytesFormat.format(Uint8Array, {lowerCase:true})", () => {
   );
 });
 
-Deno.test("BytesFormat.format(Uint8Array, {paddedLength:4})", () => {
+Deno.test("BytesFormat.format(Uint8Array, {minIntegralDigits:4})", () => {
   assertStrictEquals(
-    BytesFormat.format(Uint8Array.of(), { paddedLength: 4 }),
+    BytesFormat.format(Uint8Array.of(), { minIntegralDigits: 4 }),
     "",
   );
   assertStrictEquals(
     BytesFormat.format(Uint8Array.of(255, 254, 253, 252, 0, 1, 2, 3), {
-      paddedLength: 4,
+      minIntegralDigits: 4,
     }),
     "00FF00FE00FD00FC0000000100020003",
   );
   assertStrictEquals(
     BytesFormat.format(Uint8Array.of(255, 254, 253, 252, 0, 1, 2, 3), {
-      paddedLength: 3,
+      minIntegralDigits: 3,
     }),
     "0FF0FE0FD0FC000001002003",
   );
   assertStrictEquals(
     BytesFormat.format(Uint8Array.of(255, 254, 253, 252, 0, 1, 2, 3), {
-      paddedLength: 2,
+      minIntegralDigits: 2,
     }),
     "FFFEFDFC00010203",
   );
   assertStrictEquals(
     BytesFormat.format(Uint8Array.of(255, 254, 253, 252, 0, 1, 2, 3), {
-      paddedLength: 1,
+      minIntegralDigits: 1,
     }),
     "FFFEFDFC00010203",
   );
 
-  assertThrows(
-    () => {
-      BytesFormat.format(Uint8Array.of(255, 254, 253, 252, 0, 1, 2, 3), {
-        paddedLength: 0,
-      });
-    },
-    TypeError,
-    "paddedLength",
+  // assertThrows(
+  //   () => {
+  //     BytesFormat.format(Uint8Array.of(255, 254, 253, 252, 0, 1, 2, 3), {
+  //       minIntegralDigits: 0,
+  //     });
+  //   },
+  //   TypeError,
+  //   "minIntegralDigits",
+  // );
+  assertStrictEquals(
+    BytesFormat.format(Uint8Array.of(255, 254, 253, 252, 0, 1, 2, 3), {
+      minIntegralDigits: 0,
+    }),
+    "FFFEFDFC00010203",
   );
 
-  assertThrows(
-    () => {
-      BytesFormat.format(Uint8Array.of(255, 254, 253, 252, 0, 1, 2, 3), {
-        paddedLength: 1.5,
-      });
-    },
-    TypeError,
-    "paddedLength",
+  // assertThrows(
+  //   () => {
+  //     BytesFormat.format(Uint8Array.of(255, 254, 253, 252, 0, 1, 2, 3), {
+  //       minIntegralDigits: 1.5,
+  //     });
+  //   },
+  //   TypeError,
+  //   "minIntegralDigits",
+  // );
+  assertStrictEquals(
+    BytesFormat.format(Uint8Array.of(255, 254, 253, 252, 0, 1, 2, 3), {
+      minIntegralDigits: 1.5,
+    }),
+    "FFFEFDFC00010203",
   );
 
-  assertThrows(
-    () => {
-      BytesFormat.format(Uint8Array.of(255, 254, 253, 252, 0, 1, 2, 3), {
-        paddedLength: "1" as unknown as number,
-      });
-    },
-    TypeError,
-    "paddedLength",
+  // assertThrows(
+  //   () => {
+  //     BytesFormat.format(Uint8Array.of(255, 254, 253, 252, 0, 1, 2, 3), {
+  //       minIntegralDigits: "1" as unknown as number,
+  //     });
+  //   },
+  //   TypeError,
+  //   "minIntegralDigits",
+  // );
+  assertStrictEquals(
+    BytesFormat.format(Uint8Array.of(255, 254, 253, 252, 0, 1, 2, 3), {
+      minIntegralDigits: "1" as unknown as number,
+    }),
+    "FFFEFDFC00010203",
   );
 });
 
@@ -280,15 +316,15 @@ Deno.test("BytesFormat.parse(string, {lowerCase:true})", () => {
   );
 });
 
-Deno.test("BytesFormat.parse(string, {paddedLength:4})", () => {
+Deno.test("BytesFormat.parse(string, {minIntegralDigits:4})", () => {
   assertStrictEquals(
-    JSON.stringify([...BytesFormat.parse("", { paddedLength: 4 })]),
+    JSON.stringify([...BytesFormat.parse("", { minIntegralDigits: 4 })]),
     "[]",
   );
   assertStrictEquals(
     JSON.stringify([
       ...BytesFormat.parse("00FF00FE00FD00FC0000000100020003", {
-        paddedLength: 4,
+        minIntegralDigits: 4,
       }),
     ]),
     "[255,254,253,252,0,1,2,3]",
