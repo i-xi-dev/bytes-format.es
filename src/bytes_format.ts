@@ -1,5 +1,5 @@
 import { Radix } from "https://raw.githubusercontent.com/i-xi-dev/number.es/7.3.0/mod.ts";
-import { SafeInteger, SafeIntegerFormat, StringEx, Uint8 } from "../deps.ts";
+import { SafeInteger, SafeIntegerFormat, StringEx } from "../deps.ts";
 
 /**
  * 対応する基数
@@ -98,7 +98,11 @@ export namespace BytesFormat {
     options?: BytesFormat.Options,
   ): string {
     const resolvedOptions = _resolveFormatOptions(options);
-    return _format(bytes, resolvedOptions);
+
+    const byteStringArray = [...bytes].map((byte) => {
+      return SafeIntegerFormat.format(byte, resolvedOptions);
+    });
+    return byteStringArray.join(resolvedOptions.separator);
   }
 }
 
@@ -181,32 +185,4 @@ function _resolveFormatOptions(
     ...byteFormatOptions,
     separator,
   };
-}
-
-function _format(
-  bytes: Uint8Array,
-  options: _ResolvedFormatOptions,
-): string {
-  const byteStringArray = [...bytes].map((byte) => {
-    return _formatByte(byte as Uint8, options);
-  });
-  return byteStringArray.join(options.separator);
-}
-
-//TODO number-formatとして外に出す
-/**
- * 8-bit符号なし整数を文字列にフォーマットし返却
- *
- * @internal
- * @param byte - 8-bit符号なし整数
- * @param options - オプション
- * @returns 文字列
- */
-function _formatByte(byte: Uint8, options: _ResolvedFormatOptions): string {
-  let str = byte.toString(options.radix);
-  if (options.lowerCase !== true) {
-    str = str.toUpperCase();
-  }
-  str = str.padStart(options.minIntegralDigits, "0");
-  return options.prefix + str + options.suffix;
 }
