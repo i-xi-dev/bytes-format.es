@@ -1,5 +1,4 @@
-import { Radix } from "https://raw.githubusercontent.com/i-xi-dev/number.es/7.3.0/mod.ts";
-import { SafeInteger, SafeIntegerFormat, StringEx } from "../deps.ts";
+import { Radix, SafeInteger, SafeIntegerFormat, StringEx } from "../deps.ts";
 
 /**
  * 対応する基数
